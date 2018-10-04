@@ -10,7 +10,8 @@ module.exports = {
     publicPath: "/"
   },
   devServer: {
-    contentBase: "dist"
+    contentBase: "dist",
+    overlay: true
   },
   module: {
     rules: [
@@ -27,6 +28,37 @@ module.exports = {
           }
           //it will run the css-loader first before pass to style-loader, which will
           //inject css to html
+        ]
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[name].html"
+            }
+          },
+          {
+            loader: "extract-loader"
+          },
+          {
+            loader: "html-loader",
+            options: {
+              attrs: ["img:src"]
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(jpg|gif|png)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "images/[name]-[hash:8].[ext]"
+            }
+          }
         ]
       }
     ]
